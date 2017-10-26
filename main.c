@@ -1,20 +1,27 @@
 #include <ctype.h>
 #include <errno.h>
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
-void printplan(FILE* fh);
+void print_plan(FILE*);
 char* plan_name(void);
+int are_working_hours(time_t*);
 
 int main(int argc, char* argv[])
 {
+    time_t now = time(NULL);
+    if (!are_working_hours(&now)) {
+        return EXIT_SUCCESS;
+    }
+
     char* filename = plan_name();
     FILE* fh = fopen(filename, "r");
     if (fh == NULL) {
         fprintf(stderr, "%s\n", strerror(errno));
     }
-    printplan(fh);
+    print_plan(fh);
     fclose(fh);
 
     return EXIT_SUCCESS;
@@ -27,7 +34,7 @@ enum state {
     BEGIN_LINE
 };
 
-void printplan(FILE* fh)
+void print_plan(FILE* fh)
 {
     char c;
     enum state state = BEGIN_LINE;
@@ -63,7 +70,8 @@ void printplan(FILE* fh)
     }
 }
 
-char* plan_name(void) {
+char* plan_name(void)
+{
     char* home = getenv("HOME");
     if (home == NULL) {
         fprintf(stderr, "Environment variable HOME is not defined\n");
@@ -77,4 +85,19 @@ char* plan_name(void) {
     }
 
     return filename;
+}
+
+int are_working_hours(time_t* time)
+{
+    struct tm* t = localtime(time);
+    if (t->tm_wday == 0 || t->tm_wday == 6) {
+        // Saturday or Sunday
+        return 0;
+    } else if (9 <= t->tm_hour && t->tm_hour <= 18) {
+        // Weekday, inside working hours
+        return 1;
+    } else {
+        // Weekday, outside working hours
+        return 0;
+    }
 }
