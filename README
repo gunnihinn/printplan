@@ -1,0 +1,44 @@
+= printplan - Print items from a .plan file
+
+== DESCRIPTION
+
+Prints unfinished items from a .plan file. Only print anything if current time
+is during working hours.
+
+The "working hours" condition is there because I have my shell's RC file call
+this program every time it starts up. I don't want to see work stuff at home.
+
+== USE
+
+    $ printplan
+
+The program looks for $HOME/.plan and prints it. It takes no options.
+
+== PLAN FILE
+
+We assume the plan file follows a slightly modified Carmack style:
+
+    . Item      Mentioned, but not fixed or implemented that day
+    * Item      Completed on that day
+    + Item      Completed on a later day
+    - Item      Decided against on a later day
+
+The program will only print entries on lines that start with a '.'.
+
+The reason for the modified Carmack style is that I thought I'd like to write
+more details below entries, like so:
+
+    . Item foo bar spam
+
+    Lorem ipsum ...
+
+So far, this hasn't actually happened. If it continues not to, we might just
+revert to plain old Carmack style.
+
+== AUTHOR
+
+Gunnar Þór Magnússon <gunnar.thor.magnusson@gmail.com>
+
+== LICENCE
+
+BSD 3-clause licence.
