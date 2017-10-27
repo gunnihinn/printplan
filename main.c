@@ -93,8 +93,8 @@ int are_working_hours(time_t* time)
     if (t->tm_wday == 0 || t->tm_wday == 6) {
         // Saturday or Sunday
         return 0;
-    } else if (9 <= t->tm_hour && t->tm_hour <= 18) {
-        // Weekday, inside working hours
+    } else if (9 <= t->tm_hour && t->tm_hour < 18) {
+        // Weekday, between 9:00 and 18:00
         return 1;
     } else {
         // Weekday, outside working hours
