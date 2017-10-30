@@ -1,5 +1,5 @@
 BIN=printplan
-SRC=main.c
+SRC=src/main.c
 INSTALL_DIR=$(HOME)/Applications
 
 CFLAGS+=-std=c99
