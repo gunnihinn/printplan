@@ -4,27 +4,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
-void print_plan(FILE*);
-char* plan_name(void);
-int are_working_hours(time_t*);
-
-int main(int argc, char* argv[])
+void print_help()
 {
-    time_t now = time(NULL);
-    if (!are_working_hours(&now)) {
-        return EXIT_SUCCESS;
-    }
+    printf("HELP\n");
+}
 
-    char* filename = plan_name();
-    FILE* fh = fopen(filename, "r");
-    if (fh == NULL) {
-        fprintf(stderr, "%s\n", strerror(errno));
-    }
-    print_plan(fh);
-    fclose(fh);
-
-    return EXIT_SUCCESS;
+void print_version()
+{
+    printf("VERSION\n");
 }
 
 enum state {
@@ -100,4 +89,38 @@ int are_working_hours(time_t* time)
         // Weekday, outside working hours
         return 0;
     }
+}
+
+int main(int argc, char* argv[])
+{
+    int c;
+    while ((c = getopt(argc, argv, "hv")) != -1) {
+        switch (c) {
+        case 'v':
+            print_version();
+            return EXIT_SUCCESS;
+        case '?':
+        case 'h':
+        default:
+            print_help();
+            return EXIT_SUCCESS;
+        }
+    }
+    argc -= optind;
+    argv += optind;
+
+    time_t now = time(NULL);
+    if (!are_working_hours(&now)) {
+        return EXIT_SUCCESS;
+    }
+
+    char* filename = plan_name();
+    FILE* fh = fopen(filename, "r");
+    if (fh == NULL) {
+        fprintf(stderr, "%s\n", strerror(errno));
+    }
+    print_plan(fh);
+    fclose(fh);
+
+    return EXIT_SUCCESS;
 }
