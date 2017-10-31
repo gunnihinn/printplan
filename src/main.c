@@ -13,11 +13,6 @@ void print_help()
     fwrite(src_help_txt, sizeof(char), src_help_txt_len, stdout);
 }
 
-void print_version()
-{
-    printf("VERSION\n");
-}
-
 enum state {
     SKIP_ALL,
     SKIP_SPACE,
@@ -98,9 +93,6 @@ int main(int argc, char* argv[])
     int c;
     while ((c = getopt(argc, argv, "hv")) != -1) {
         switch (c) {
-        case 'v':
-            print_version();
-            return EXIT_SUCCESS;
         case '?':
         case 'h':
         default:

@@ -15,7 +15,6 @@ this program every time it starts up. I don't want to see work stuff at home.
 The program looks for $HOME/.plan and prints it. It accepts these options:
 
     -h  Print help
-    -v  Print version
 
 == PLAN FILE
 

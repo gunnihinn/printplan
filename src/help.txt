@@ -9,7 +9,6 @@ USE:
 OPTIONS:
 
     -h  Print this help message
-    -v  Print the version number
 
 PLAN SYNTAX:
 
