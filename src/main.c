@@ -6,9 +6,11 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "help.h"
+
 void print_help()
 {
-    printf("HELP\n");
+    fwrite(src_help_txt, sizeof(char), src_help_txt_len, stdout);
 }
 
 void print_version()

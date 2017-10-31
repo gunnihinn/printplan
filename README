@@ -10,9 +10,12 @@ this program every time it starts up. I don't want to see work stuff at home.
 
 == USE
 
-    $ printplan
+    $ printplan [OPTION]
 
-The program looks for $HOME/.plan and prints it. It takes no options.
+The program looks for $HOME/.plan and prints it. It accepts these options:
+
+    -h  Print help
+    -v  Print version
 
 == PLAN FILE
 
@@ -34,6 +37,22 @@ more details below entries, like so:
 
 So far, this hasn't actually happened. If it continues not to, we might just
 revert to plain old Carmack style.
+
+== RAISON D'ÊTRE
+
+Every six moons or so, someone will post John Carmack's .plan archive to Hacker
+News after reading about them in "Masters of Doom".
+
+One of those times, I thought that was a good idea and figured I'd try using a
+.plan file at $work. I didn't want to publish mine company-wide, but just have
+something that wasn't Jira to remind me what I had wanted to be doing.
+
+I also wanted to only have this thing remind me about things I hadn't done yet,
+and be quick enough about it to include it in my shell's RC file.
+
+If we're being honest, grep was fast enough for this, but I also just wanted to
+write something in C. Also, I only wanted to print the .plan during working
+hours, and did _not_ want to figure out the shell incantation to do that.
 
 == AUTHOR
 

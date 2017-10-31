@@ -1,0 +1,27 @@
+printplan - Print unfinished .plan items
+
+This program prints unfinished items from the user's .plan file.
+
+USE:
+
+    printplan [OPTION...]
+
+OPTIONS:
+
+    -h  Print this help message
+    -v  Print the version number
+
+PLAN SYNTAX:
+
+We assume the items in the user's .plan file follow modified Carmack syntax:
+
+    . Item      Mentioned, but not fixed or implemented that day
+    * Item      Completed on that day
+    + Item      Completed on a later day
+    - Item      Decided against on a later day
+
+The program will only print entries on lines that start with a '.'.
+
+AUTHOR:
+
+    Gunnar Þór Magnússon <gunnar.thor.magnusson@gmail.com>
