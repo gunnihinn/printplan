@@ -8,18 +8,17 @@ USE:
 
 OPTIONS:
 
+    -f  Force printing outside of working hours
     -h  Print this help message
 
 PLAN SYNTAX:
 
-We assume the items in the user's .plan file follow modified Carmack syntax:
+We assume the items in the user's .plan file follow Carmack syntax:
 
-    . Item      Mentioned, but not fixed or implemented that day
+    Item        Mentioned, but not fixed or implemented that day
     * Item      Completed on that day
     + Item      Completed on a later day
     - Item      Decided against on a later day
-
-The program will only print entries on lines that start with a '.'.
 
 AUTHOR:
 

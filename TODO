@@ -1,7 +1,0 @@
-= TODO
-
-== Use gets
-
-We can get a line at a time from input instead of going char by char. This
-would simplify the logic somewhat and let us get rid of the ad-hoc state
-machine.

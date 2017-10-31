@@ -14,28 +14,24 @@ this program every time it starts up. I don't want to see work stuff at home.
 
 The program looks for $HOME/.plan and prints it. It accepts these options:
 
+    -f  Force printing outside of working hours
     -h  Print help
 
 == PLAN FILE
 
-We assume the plan file follows a slightly modified Carmack style:
+We assume the items in the user's .plan file follow Carmack syntax:
 
-    . Item      Mentioned, but not fixed or implemented that day
+    Item        Mentioned, but not fixed or implemented that day
     * Item      Completed on that day
     + Item      Completed on a later day
     - Item      Decided against on a later day
 
-The program will only print entries on lines that start with a '.'.
+The program will only print entries that have not been completed or decided
+against.
 
-The reason for the modified Carmack style is that I thought I'd like to write
-more details below entries, like so:
-
-    . Item foo bar spam
-
-    Lorem ipsum ...
-
-So far, this hasn't actually happened. If it continues not to, we might just
-revert to plain old Carmack style.
+From the syntax it follows that we can use other ad-hoc delimiters to signify
+lines that should not be printed, but mean something to the .plan author. For
+example, I use '=' to mark dates or .plan headings.
 
 == RAISON D'ÊTRE
 
@@ -52,6 +48,36 @@ and be quick enough about it to include it in my shell's RC file.
 If we're being honest, grep was fast enough for this, but I also just wanted to
 write something in C. Also, I only wanted to print the .plan during working
 hours, and did _not_ want to figure out the shell incantation to do that.
+
+== EXAMPLE
+
+I have this in my .zshrc file:
+
+    printplan
+
+Whenever I spawn a new shell, it prints the unfinished items from my .plan file
+if it's still working hours. My .plan file looks like this:
+
+    = Writing Java while not wearing a tie is a syntax error.
+
+    = Future
+
+    . Thing 1
+    . Thing 2
+    . Thing 3
+
+    = 31/10/2017
+
+    Todo 1
+    Todo 2
+        Further comments on todo 2, if any.
+    Todo 3
+
+    = 30/10/2017
+
+    * Done 1
+    + Done 2
+    - Not done 3
 
 == AUTHOR
 

@@ -13,47 +13,25 @@ void print_help()
     fwrite(src_help_txt, sizeof(char), src_help_txt_len, stdout);
 }
 
-enum state {
-    SKIP_ALL,
-    SKIP_SPACE,
-    PRINT,
-    BEGIN_LINE
-};
+int ignore(char* line)
+{
+    return *line == '\0' || !isalpha(*line);
+}
 
 void print_plan(FILE* fh)
 {
-    char c;
-    enum state state = BEGIN_LINE;
-    while ((c = getc(fh)) != EOF) {
-        switch (state) {
-        case PRINT:
-            if (c == '\n') {
-                state = BEGIN_LINE;
-            }
-            printf("%c", c);
-            break;
-        case SKIP_SPACE:
-            if (!isspace(c)) {
-                state = PRINT;
-                printf("%c", c);
-            }
-            break;
-        case BEGIN_LINE:
-            if (c == '.') {
-                state = SKIP_SPACE;
-            } else if (c != '\n') {
-                state = SKIP_ALL;
-            }
-            break;
-        case SKIP_ALL:
-            if (c == '\n') {
-                state = BEGIN_LINE;
-            }
-            break;
-        default:
-            break;
+    // TODO: Deal with lines longer than this?
+    unsigned int bufsize = 2 << 10;
+    char* buffer = malloc(sizeof(char) * bufsize);
+
+    while (!feof(fh)) {
+        fgets(buffer, bufsize, fh);
+        if (!ignore(buffer)) {
+            printf("%s", buffer);
         }
     }
+
+    free(buffer);
 }
 
 char* plan_name(void)
@@ -90,9 +68,14 @@ int are_working_hours(time_t* time)
 
 int main(int argc, char* argv[])
 {
+    int force_print = 0;
+
     int c;
-    while ((c = getopt(argc, argv, "hv")) != -1) {
+    while ((c = getopt(argc, argv, "fh")) != -1) {
         switch (c) {
+        case 'f':
+            force_print = 1;
+            break;
         case '?':
         case 'h':
         default:
@@ -104,7 +87,7 @@ int main(int argc, char* argv[])
     argv += optind;
 
     time_t now = time(NULL);
-    if (!are_working_hours(&now)) {
+    if (!force_print && !are_working_hours(&now)) {
         return EXIT_SUCCESS;
     }
 
